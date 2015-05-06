@@ -18,7 +18,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'development');
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -33,12 +33,14 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
-			error_reporting(E_ALL);
+			error_reporting(-1);
+			ini_set('display_errors', 1);
 		break;
 
 		case 'testing':
 		case 'production':
-			error_reporting(0);
+			ini_set('display_errors', 0);
+			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
 		break;
 
 		default:
@@ -72,7 +74,11 @@ if (defined('ENVIRONMENT'))
  * NO TRAILING SLASH!
  *
  */
-	$application_folder = 'application';
+
+$application_folder =
+	isset($_SERVER['CI_APPLICATION'])
+		? $_SERVER['CI_APPLICATION']
+		: 'application';
 
 /*
  * --------------------------------------------------------------------
