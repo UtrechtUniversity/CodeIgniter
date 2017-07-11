@@ -114,7 +114,8 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'application';
+
+    $application_folder = isset($_SERVER['CI_APPLICATION']) ? $_SERVER['CI_APPLICATION'] : 'application';
 
 /*
  *---------------------------------------------------------------
